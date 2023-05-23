@@ -3,23 +3,28 @@ import React from "react";
 import axios from "axios";
 import Table from "react-bootstrap/Table";
 import "./App.css";
+import { COINGECKO_MARKETS_API, VS_CURRENCY_USD } from "./common/constants";
 
 const App = () => {
   const [currenciesData, setCurrenciesData] = useState([]);
 
-  useEffect(() => {
+  const getCoingeckoMarketData = () => {
     axios
-      .get("https://api.coingecko.com/api/v3/coins/markets", {
-        params: { vs_currency: "USD" },
+      .get(COINGECKO_MARKETS_API, {
+        params: { vs_currency: VS_CURRENCY_USD },
       })
       .then((response) => setCurrenciesData(response.data))
       .catch((error) => {
         console.log(error.message);
       });
+  };
+
+  useEffect(() => {
+    getCoingeckoMarketData();
   }, []);
 
   return (
-    <Table striped bordered hover size="sm">
+    <Table striped hover size="sm">
       <thead className="wrapper-header-box">
         <tr className="header-box">
           <th className="header-logo-box"></th>
@@ -31,7 +36,7 @@ const App = () => {
 
       <tbody className="wrapper-body-box">
         {currenciesData.map((data) => (
-          <tr key={data.id}>
+          <tr className="row-information" key={data.id}>
             <td className="image-logo-box">
               <img className="image-logo" src={data.image} alt="crypto" />
             </td>
