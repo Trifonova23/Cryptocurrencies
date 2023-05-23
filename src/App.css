@@ -36,3 +36,27 @@
     transform: rotate(360deg);
   }
 }
+
+.wrapper-header-box {
+  padding: 20px 20px 20px 20px;
+}
+
+.wrapper-body-box .image-logo-box {
+  width: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper-body-box .image-logo {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper-body-box .data-name-box,
+.wrapper-body-box .data-symbol-box,
+.wrapper-body-box .data-current-price {
+  display: table-cell;
+  vertical-align: middle;
+}

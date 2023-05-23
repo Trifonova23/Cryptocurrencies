@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import React from "react";
+import axios from "axios";
+import Table from "react-bootstrap/Table";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [currenciesData, setCurrenciesData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("https://api.coingecko.com/api/v3/coins/markets", {
+        params: { vs_currency: "USD" },
+      })
+      .then((response) => setCurrenciesData(response.data))
+      .catch((error) => {
+        console.log(error.message);
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Table striped bordered hover size="sm">
+      <thead className="wrapper-header-box">
+        <tr className="header-box">
+          <th className="header-logo-box"></th>
+          <th className="header-name-box">Name</th>
+          <th className="header-symbol-box"> Symbol </th>
+          <th className="header-price-box">Current Price</th>
+        </tr>
+      </thead>
+
+      <tbody className="wrapper-body-box">
+        {currenciesData.map((data) => (
+          <tr key={data.id}>
+            <td className="image-logo-box">
+              <img className="image-logo" src={data.image} alt="crypto" />
+            </td>
+            <td className="data-name-box"> {data.name} </td>
+            <td className="data-symbol-box">{data.symbol}</td>
+            <td className="data-current-price"> ${data.current_price}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   );
-}
+};
 
 export default App;
